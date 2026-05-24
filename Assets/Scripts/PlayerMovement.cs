@@ -78,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
 
         MyInput();
         ControlDrag();
+        ControlSpeed();
         if (playerJump.WasPressedThisFrame() && (isGrounded || jumpCount < 2))
         {
             Jump();
@@ -108,11 +109,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isGrounded)
         {
-            rb.AddForce(moveDir * moveSpeed * moveMult, ForceMode.Acceleration);
+            rb.AddForce(moveDir.normalized * moveSpeed * moveMult, ForceMode.Acceleration);
         } 
         else if (!isGrounded)
         {
-            rb.AddForce(moveDir.normalized * moveSpeed * moveMult * airMult, ForceMode.Acceleration);
+            rb.AddForce(moveDir * moveSpeed * moveMult * airMult, ForceMode.Acceleration);
         }
     }
 
