@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
@@ -69,7 +70,9 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
-        
+        startYScale = playerTransform.localScale.y;
+        slideTimer = slideTimerLimit;
+
     }
 
     private void Update()
@@ -79,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
         MyInput();
         ControlDrag();
         ControlSpeed();
+        Slide();
         if (playerJump.WasPressedThisFrame() && (isGrounded || jumpCount < 2))
         {
             Jump();
@@ -87,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (isGrounded)
         {
-            jumpCount = 1;
+            jumpCount = 1; //resets jumps
         }
     }
 
@@ -144,5 +148,26 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+    }
+    void Slide()
+    {
+        if (playerCrouch.IsPressed() && isGrounded && slideTimer > 0)
+        {
+            isSliding = true;
+            playerTransform.localScale = new Vector3(playerTransform.localScale.x, slideYScale, playerTransform.localScale.z);
+            rb.AddForce(moveDir.normalized * slideForce, ForceMode.Acceleration);
+            slideTimer -= Time.deltaTime;
+        }
+
+        if (playerCrouch.WasReleasedThisFrame() || slideTimer <= 0)
+        {
+            isSliding = false;
+            playerTransform.localScale = new Vector3(playerTransform.localScale.x, startYScale, playerTransform.localScale.z);
+        }
+
+        if (playerCrouch.WasReleasedThisFrame())
+        {
+            slideTimer = slideTimerLimit;
+        }
     }
 }
