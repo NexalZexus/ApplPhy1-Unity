@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerAudio : MonoBehaviour
 {
     private AudioSource audioSource;
-    private int index;
+    [SerializeField] private int index;
     private bool audioPlaying;
     PlayerMovement player;
     
@@ -43,55 +43,67 @@ public class PlayerAudio : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        player = GetComponent<PlayerMovement>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (player.IsRunning)
+        if (playerSprint.IsPressed())
         {
+            Debug.Log("runSFX");
             audioSource.clip = runSFX[index];
             PlayAudio();
         }
 
-        if (player.IsWalking)
+        if (playerMove.IsPressed() && !playerSprint.IsPressed())
         {
+            Debug.Log("walkSFX");
             audioSource.clip = walkSFX[index];
             PlayAudio();
         }
 
-        if (player.IsJumping)
+        if (playerJump.WasPressedThisDynamicUpdate() && player.IsJumping)
         {
-            audioSource.PlayOneShot(jumpSFX);
+            Debug.Log("jumpsfx");
+            audioSource.clip = jumpSFX;
+            audioSource.Play();
         }
 
-        if (player.DidLand)
+        if (player.DidLand && playerJump.WasCompletedThisDynamicUpdate())
         {
-            audioSource.PlayOneShot(landSFX);
+            Debug.Log("landSFX");
+            audioSource.clip = landSFX;
+            audioSource.Play();
         }
 
         if (player.IsWallRun)
         {
+            Debug.Log("walkSFX");
             audioSource.clip = wallRunSFX[index];
             PlayAudio();
         }
 
         if (player.IsSliding)
         {
+            Debug.Log("slideSFX");
             audioSource.clip = slideSFX;
             audioSource.Play();
-            while (true)
-            {
-                audioSource.loop = true;
-            }
         }
+
+        if (audioSource.clip = null)
+        {
+            return;
+        }
+
     }
 
     private void PlayAudio()
     {
-        if (audioSource.clip = null)
+        index = 0;
+        if (index == audioSource.clip.length)
         {
-            return;
+            index = 0;
         }
 
         if (audioPlaying)
@@ -106,10 +118,7 @@ public class PlayerAudio : MonoBehaviour
         {
             audioPlaying = false;
         }
-        if (index == audioSource.clip.length)
-        {
-            index = 0;
-        }
+        
     } 
 
     private void PlayNextAudio()
