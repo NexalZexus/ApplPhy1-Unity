@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     private InputActionAsset inputAction;
     private InputAction playerMove;
     private Vector2 moveValue;
-    private float horiMove;
+    private float horiMove;    
     private float vertMove;
 
     [Header("Sprinting")]
@@ -25,15 +25,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float sprintSpeed = 6f;
     [SerializeField] private float acceleration = 10f;
     private InputAction playerSprint;
-    private bool isRunning;
-    private bool isWalking;
 
     [Header("Jumping")]
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float jumpCount;
     private InputAction playerJump;
-    private bool isJumping;
-    private bool didLand;
 
     [Header("Drag")]
     [SerializeField] private float groundDrag = 6f;
@@ -56,7 +52,6 @@ public class PlayerMovement : MonoBehaviour
     private RaycastHit rightWallHit;
     private bool wallLeft = false;
     private bool wallRight = false;
-    private bool wallRun;
 
     [Header("Slide")]
     [SerializeField] private float slideForce = 2f;
@@ -75,14 +70,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float camTiltTime;
 
     public float tilt {  get; private set; }
-    public bool IsSliding => isSliding;
-    public bool IsGrounded => isGrounded;
-    public bool IsJumping => isJumping;
-    public bool IsRunning => isRunning;
-    public bool IsWallRun => wallRun;
-    public bool IsWalking => isWalking;
-    public bool DidLand => didLand;
-
     private Vector3 moveDir;
     private Vector3 slopeMoveDir;
 
@@ -222,26 +209,20 @@ public class PlayerMovement : MonoBehaviour
         if (playerSprint.IsPressed() && isGrounded)
         {
             moveSpeed = Mathf.Lerp(moveSpeed, sprintSpeed, acceleration * Time.deltaTime);
-            isRunning = true;
         }
         else
         {
             moveSpeed = Mathf.Lerp(moveSpeed, walkSpeed, acceleration * Time.deltaTime);
-            isWalking = true;
         }
     }
     void Jump()
     {
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-        isJumping = true;
-        didLand = false;
     }
     void ResetJump()
     {
         jumpCount = 1;
-        isJumping = false;
-        didLand = true;
     }
     void Slide()
     {
@@ -296,8 +277,6 @@ public class PlayerMovement : MonoBehaviour
                 Vector3 wallRunJumpDirection = transform.up + leftWallHit.normal * 2;
                 rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
                 rb.AddForce(wallRunJumpDirection * wallRunJumpForce * 50, ForceMode.Force);
-                isJumping = true;
-                didLand = false;
                 ResetJump();
             }
             else if (wallRight)
@@ -305,8 +284,6 @@ public class PlayerMovement : MonoBehaviour
                 Vector3 wallRunJumpDirection = transform.up + rightWallHit.normal * 2;
                 rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
                 rb.AddForce(wallRunJumpDirection * wallRunJumpForce * 50, ForceMode.Force);
-                isJumping = true;
-                didLand = false;
                 ResetJump();
             }
         }
