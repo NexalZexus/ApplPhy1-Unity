@@ -1,22 +1,43 @@
+using System.Collections;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private GameObject boolet;
+    private InputActionAsset inputActions;
+    private InputAction playerShoot;
+
+    private GameObject boolet;
 
     [SerializeField] private float brrtForce;
     [SerializeField] private float brrtCD;
+    [SerializeField] private float booletLife;
 
-    private 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private Transform bangPos;
+
+    private void Awake()
     {
-        
+        playerShoot = InputSystem.actions.FindAction("Attack");
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (playerShoot.WasPressedThisDynamicUpdate())
+        {
+            shoot();
+        }
+    }
+    void shoot()
+    {
+        boolet = GameObject.Instantiate(Resources.Load("Prefabs/Boolet") as GameObject, bangPos.position, bangPos.rotation);
+        boolet.GetComponent<Rigidbody>().AddForce(brrtForce * bangPos.transform.up, ForceMode.Impulse);
+
+        StartCoroutine(BooletDestroy());
+    }
+    private IEnumerator BooletDestroy()
+    {
+        yield return new WaitForEndOfFrame();
+        Destroy(boolet,booletLife);
     }
 }
