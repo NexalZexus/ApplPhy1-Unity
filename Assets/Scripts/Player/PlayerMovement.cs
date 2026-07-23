@@ -297,14 +297,6 @@ public class PlayerMovement : MonoBehaviour
 
         tilt = Mathf.Lerp(tilt, 0, camTiltTime * Time.deltaTime);
     }
-    //private void OnCollisionExit(Collision boundary)
-    //{
-    //    if (boundary.gameObject.tag == "Bounds")
-    //    {
-    //        playerTransform.position = respawnPoint.transform.position;
-    //        Debug.Log("Outbounds");
-    //    }
-    //}
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.tag == "Bounds")
