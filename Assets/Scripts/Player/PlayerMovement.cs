@@ -5,9 +5,8 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Reference")]
-    [SerializeField] Transform playerTransform;
-    [SerializeField] Transform orientation;
-    [SerializeField] Transform respawnPoint;
+    [SerializeField] private Transform playerTransform;
+    [SerializeField] private Transform orientation;
 
     [Header("Player Stats")]
     private float playerHeight =2f;
@@ -296,13 +295,5 @@ public class PlayerMovement : MonoBehaviour
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, fov, wallRunfovTime * Time.deltaTime);
 
         tilt = Mathf.Lerp(tilt, 0, camTiltTime * Time.deltaTime);
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Bounds")
-        {
-            playerTransform.position = respawnPoint.transform.position;
-            Debug.Log("Outbounds");
-        }
     }
 }
