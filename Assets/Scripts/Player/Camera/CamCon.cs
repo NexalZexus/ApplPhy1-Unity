@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class CamCon : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class CamCon : MonoBehaviour
     [SerializeField] private PlayerMovement player;
     [SerializeField] private Transform camHolder;
     [SerializeField] private Transform playerOrientation;
+    [SerializeField] private Slider sensXSlider;
+    [SerializeField] private Slider sensYSlider;
+
+    private bool canLook = true;
 
     private float rotationX;
     private float rotationY;
@@ -48,5 +53,20 @@ public class CamCon : MonoBehaviour
         rotationY += lookMouse.x * sensX * multiplier;
 
         rotationX = Mathf.Clamp(rotationX, -90f, 90f);
+    }
+
+    public void SetSensX()
+    {
+        sensX = sensXSlider.value;
+    }
+
+    public void SetSensY()
+    {
+        sensY = sensYSlider.value;
+    }
+
+    public void SetCanLook(bool paused)
+    {
+        canLook = paused;
     }
 }

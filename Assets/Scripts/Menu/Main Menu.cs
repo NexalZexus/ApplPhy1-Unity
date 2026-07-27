@@ -4,6 +4,10 @@ using UnityEngine.UIElements.Experimental;
 
 public class NewMonoBehaviourScript : MonoBehaviour
 {
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.None;
+    }
     public void Play()
     {
         SceneManager.LoadScene(2);
