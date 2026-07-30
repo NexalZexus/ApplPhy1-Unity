@@ -2,15 +2,19 @@ using UnityEngine;
 
 public class Boolet : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] private float enemyDamage = 50f;
+    [SerializeField] private float playerDamage = 20f;
 
-    // Update is called once per frame
-    void Update()
+    private void OnCollisionEnter(Collision collision)
     {
-        
+        Transform hitTransform = collision.transform;
+        if (hitTransform.CompareTag("Player"))
+        {
+            hitTransform.GetComponent<PlayerHealth>().TakeDamage(playerDamage);
+        }
+        if (hitTransform.CompareTag("Enemy"))
+        {
+            hitTransform.GetComponent<EnemyScript>().TakeDamage(enemyDamage);
+        }
     }
 }

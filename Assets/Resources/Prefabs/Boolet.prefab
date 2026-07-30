@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8107069636358596269}
   - component: {fileID: 887855268634227513}
   - component: {fileID: 2125007981310746813}
+  - component: {fileID: 2697137250615139155}
   m_Layer: 0
   m_Name: Boolet
   m_TagString: Untagged
@@ -251,3 +252,17 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2, y: 2.0000005, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2697137250615139155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3105852969614369090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 581f9b24fbc01cb4a87f3d190a8fbe16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Boolet
+  enemyDamage: 50
+  playerDamage: 20

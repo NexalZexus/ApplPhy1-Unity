@@ -39,7 +39,10 @@ public class CamCon : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        CamInput();
+        if (canLook)
+        {
+            CamInput();
+        }
 
         camHolder.transform.localRotation = Quaternion.Euler(rotationX, rotationY, player.tilt);
         playerOrientation.transform.rotation = Quaternion.Euler(0, rotationY, 0);

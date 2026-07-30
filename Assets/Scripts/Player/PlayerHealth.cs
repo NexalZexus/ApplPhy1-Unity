@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
@@ -27,6 +28,10 @@ public class PlayerHealth : MonoBehaviour
     {
         curHealth = Mathf.Clamp(curHealth, 0, maxHealth);
         HealthBarChip();
+        if (curHealth <= 0)
+        {
+            SceneManager.LoadScene(1);
+        }
     }
 
     void HealthBarChip()
