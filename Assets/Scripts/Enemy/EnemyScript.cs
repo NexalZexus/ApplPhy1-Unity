@@ -12,8 +12,12 @@ public class EnemyScript : MonoBehaviour
     [Header("Shooting")]
     [SerializeField] private Transform bangPos;
     [SerializeField] private float brrtForce;
+    [SerializeField] private float brrtCD;
     [SerializeField] private float booletLife;
+    [SerializeField] private float combatRange = 10f;
     private GameObject boolet;
+    private float playerDistance;
+    private bool canShoot;
 
     [Header("Pathing")]
     [SerializeField] private List<Transform> paths;
@@ -27,18 +31,30 @@ public class EnemyScript : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         agent = GetComponent<NavMeshAgent>();
         curHealth = maxHealth;
-
+        canShoot = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        playerDistance = Vector3.Distance(transform.position, player.transform.position);
+        
         if (curHealth <= 0)
         {
             Destroy(gameObject);
         }
 
+        if (playerDistance <= combatRange)
+        {
+            transform.LookAt(player.transform.position);
 
+            if (canShoot)
+            {
+                Shoot();
+                canShoot = false;
+                StartCoroutine(ResetShoot());
+            }
+        }
 
         if (paths == null)
         {
@@ -64,7 +80,11 @@ public class EnemyScript : MonoBehaviour
         boolet.GetComponent<Rigidbody>().AddForce(brrtForce * bangPos.transform.up, ForceMode.Impulse);
         StartCoroutine(BooletDestroy());
     }
-
+    private IEnumerator ResetShoot()
+    {
+        yield return new WaitForSeconds(brrtCD);
+        canShoot = true;
+    }
     private IEnumerator BooletDestroy()
     {
         yield return new WaitForEndOfFrame();

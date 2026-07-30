@@ -11,7 +11,6 @@ public class Player : MonoBehaviour
     private GameObject boolet;
 
     [SerializeField] private float brrtForce;
-    [SerializeField] private float brrtCD;
     [SerializeField] private float booletLife;
 
     [SerializeField] private Transform bangPos;

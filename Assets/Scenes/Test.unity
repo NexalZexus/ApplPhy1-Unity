@@ -7001,6 +7001,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5594462180550627347, guid: 5767af685f21f5f40aead6c97efd9918, type: 3}
+      propertyPath: m_UiScaleMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5594462180550627347, guid: 5767af685f21f5f40aead6c97efd9918, type: 3}
+      propertyPath: m_ScreenMatchMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8377945905233616222, guid: 5767af685f21f5f40aead6c97efd9918, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
